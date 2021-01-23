@@ -1,5 +1,33 @@
 section.uc-fsv-comparer
+    position: relative
+
     .viewport
         width: 50%
         height: 100%
         overflow: hidden
+
+    .properties
+        position: absolute
+        bottom: 0
+        left: 0
+        right: 0
+
+        list-style: none
+
+        .label
+            text-align: center
+
+        li
+            padding: 0.6em 0
+
+            span
+                display: inline-block
+                max-width: 50%
+                padding: 0 0.6em
+                text-overflow: ellipsis
+                white-space: nowrap
+
+            > div > span:first-child
+                width: 50%
+                border-right: 1px solid #FFF
+                text-align: right

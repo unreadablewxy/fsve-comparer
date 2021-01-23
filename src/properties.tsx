@@ -6,10 +6,13 @@ export interface ItemProps {
     right: string;
 }
 
-function renderItem({left, right}: ItemProps) {
+function renderItem({label, left, right}: ItemProps) {
     return <li>
-        <span>{left}</span>
-        <span>{right}</span>
+        <div className="label">{label}</div>
+        <div>
+            <span>{left}</span>
+            <span>{right}</span>
+        </div>
     </li>;
 }
 
@@ -23,8 +26,10 @@ function renderProperties({items, leftFile, rightFile}: Props) {
     return <ul className="properties">
         {items ? items.map(renderItem) : <li>Loading...</li>}
         <li>
-            <span>{leftFile}</span>
-            <span>{rightFile}</span>
+            <div>
+                <span>{leftFile}</span>
+                <span>{rightFile}</span>
+            </div>
         </li>
     </ul>;
 }
