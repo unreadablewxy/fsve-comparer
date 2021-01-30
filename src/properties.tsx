@@ -1,4 +1,7 @@
+import "./properties.sass";
 import * as React from "react";
+import {mdiChevronUp, mdiChevronDown} from "@mdi/js";
+import {Icon} from "@mdi/react";
 
 export interface ItemProps {
     label: string;
@@ -8,7 +11,7 @@ export interface ItemProps {
 
 function renderItem({label, left, right}: ItemProps) {
     return <li key={label}>
-        <div className="label">{label}</div>
+        <div className="header">{label}</div>
         <div>
             <span>{left}</span>
             <span>{right}</span>
@@ -23,15 +26,29 @@ interface Props {
 }
 
 function renderProperties({items, leftFile, rightFile}: Props) {
-    return <ul className="properties">
-        {items ? items.map(renderItem) : <li><div className="label">Loading...</div></li>}
-        <li>
-            <div>
-                <span>{leftFile}</span>
-                <span>{rightFile}</span>
+    const [collapsed, setCollapsed] = React.useState(false);
+    return <div className="properties">
+        <div className="header">
+            <button className="handle" onClick={() => setCollapsed(!collapsed)}>
+                <Icon path={collapsed ? mdiChevronUp : mdiChevronDown} />
+            </button>
+        </div>
+        {!collapsed && <div className="panel">
+            <div className="background">
+                <ul>
+                    {items
+                        ? items.map(renderItem)
+                        : <li><div className="label">Loading...</div></li>}
+                    <li>
+                        <div>
+                            <span>{leftFile}</span>
+                            <span>{rightFile}</span>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </li>
-    </ul>;
+        </div>}
+    </div>;
 }
 
 export const Properties = React.memo(renderProperties);
