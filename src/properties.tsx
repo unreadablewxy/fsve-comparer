@@ -24,7 +24,7 @@ interface Props {
 
 function renderProperties({items, leftFile, rightFile}: Props) {
     return <ul className="properties">
-        {items ? items.map(renderItem) : <li>Loading...</li>}
+        {items ? items.map(renderItem) : <li><div className="label">Loading...</div></li>}
         <li>
             <div>
                 <span>{leftFile}</span>
