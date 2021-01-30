@@ -1,6 +1,6 @@
 import {Definition as ComparerModeDefinition} from "./mode";
 
-export const namespace = "de.unreadableco.fs-viewer.random-ordering";
+export const namespace = "de.unreadableco.fs-viewer.comparer";
 
 export const stylesheets = [
     new URL("extension://index.css"),
