@@ -7,7 +7,7 @@ export interface ItemProps {
 }
 
 function renderItem({label, left, right}: ItemProps) {
-    return <li>
+    return <li key={label}>
         <div className="label">{label}</div>
         <div>
             <span>{left}</span>
