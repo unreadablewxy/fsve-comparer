@@ -2,7 +2,6 @@ import "./mode.sass";
 import * as React from "react";
 
 import type {Location} from "history"
-import type {ChildProcess} from "child_process"
 
 import {Viewport} from "./viewport";
 import {ItemProps, Properties} from "./properties";
@@ -15,38 +14,28 @@ interface MediaInfoResponse {
     lossy: boolean;
     size: number;
 }
+interface ProcessResult {
+    status: number;
+    out: string;
+    err: string;
+}
 
-function invokeMediaInfo(invoker: any, file: string): Promise<MediaInfoResponse> {
-    return new Promise((resolve, reject) => {
-        const proc: ChildProcess = invoker.spawn("/usr/bin/mediainfo", "--Output=JSON", file);
-        if (proc.stdout) {
-            let outputText = "";
+async function invokeMediaInfo(invoker: any, file: string): Promise<MediaInfoResponse> {
+    const proc: ProcessResult = await invoker.spawn("/usr/bin/mediainfo", "--Output=JSON", file);
+    if (!proc.out)
+        throw new Error("No data");
 
-            proc.stdout.on("data", (chunk) => {
-                outputText += chunk.toString();
-            });
-
-            proc.stdout.on("end", () => {
-                try {
-                    const {track} = JSON.parse(outputText).media;
-                    const output = track.find(t => t["@type"] !== "General");
-                    const general = track.find(t => t["@type"] === "General");
-                    resolve({
-                        format: output["Format"],
-                        width: output["Width"],
-                        height: output["Height"],
-                        bitDepth: output["BitDepth"],
-                        lossy: output["Compression_Mode"] === "Lossy",
-                        size: general["FileSize"],
-                    });
-                } catch (e) {
-                    reject(e);
-                }
-            });
-
-            proc.stdout.on("error", reject);
-        }
-    });
+    const {track} = JSON.parse(proc.out).media;
+    const output = track.find(t => t["@type"] !== "General");
+    const general = track.find(t => t["@type"] === "General");
+    return {
+        format: output["Format"],
+        width: output["Width"],
+        height: output["Height"],
+        bitDepth: output["BitDepth"],
+        lossy: output["Compression_Mode"] === "Lossy",
+        size: general["FileSize"],
+    };
 }
 
 function toFormatString({format, lossy}: MediaInfoResponse): string {
