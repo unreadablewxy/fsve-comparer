@@ -11,9 +11,11 @@ interface MediaInfoResponse {
     width: number;
     height: number;
     bitDepth: number;
+    colorSpace?: string;
     lossy: boolean;
     size: number;
 }
+
 interface ProcessResult {
     status: number;
     out: string;
@@ -21,7 +23,7 @@ interface ProcessResult {
 }
 
 async function invokeMediaInfo(invoker: any, file: string): Promise<MediaInfoResponse> {
-    const proc: ProcessResult = await invoker.spawn("/usr/bin/mediainfo", "--Output=JSON", file);
+    const proc: ProcessResult = await invoker.execute("/usr/bin/mediainfo", "--Output=JSON", file);
     if (!proc.out)
         throw new Error("No data");
 
@@ -33,6 +35,7 @@ async function invokeMediaInfo(invoker: any, file: string): Promise<MediaInfoRes
         width: output["Width"],
         height: output["Height"],
         bitDepth: output["BitDepth"],
+        colorSpace: `${output["ColorSpace"]} ${output["ChromaSubsampling"]}`,
         lossy: output["Compression_Mode"] === "Lossy",
         size: general["FileSize"],
     };
