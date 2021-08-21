@@ -152,13 +152,14 @@ export class Comparer extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        const {leftFile, rightFile} = this.props; 
+        const {leftFile, rightFile} = this.props;
         return <section className="uc-fsv-comparer">
-            <Viewport path={leftFile}
-                error={this.state.leftError}
-            />
-            <Viewport path={rightFile}
-                error={this.state.rightError}
+            <Viewport
+                leftImagePath={leftFile}
+                leftError={this.state.leftError}
+
+                rightImagePath={rightFile}
+                rightError={this.state.rightError}
             />
             <Properties items={this.state.comparisons}
                 leftFile={leftFile}
