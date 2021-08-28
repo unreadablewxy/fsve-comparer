@@ -92,28 +92,30 @@ export class Viewport extends React.PureComponent<Props, State> {
         clientY,
         target,
     }: React.WheelEvent<HTMLUListElement>): void {
-        let change = deltaY / -400;
-        const max = 4 - this.state.scale;
-        if (change > max)
-            change = max;
-
-        const min = 0.1 - this.state.scale;
-        if (change < min)
-            change = min;
+        let change = 1 + deltaY / -600;
+        if (change > 1) {
+            if (change * this.state.scale > 8) {
+                return;
+            }
+        } else {
+            if (change * this.state.scale < 0.3) {
+                return;
+            }
+        }
 
         const rect = (target as HTMLElement).getBoundingClientRect();
 
         change && this.setState(({offset, scale}) => {
             // Transform to image centric coordniates
-            const relativeX = (clientX - rect.x) - (offset.x + rect.width / 2);
-            const relativeY = (clientY - rect.y) - (offset.y + rect.height / 2);
+            const relativeX = (clientX - rect.x) - (rect.width / 2) - offset.x;
+            const relativeY = (clientY - rect.y) - (rect.height / 2) - offset.y;
 
             return {
                 offset: {
-                    x: offset.x + (relativeX - (relativeX * (scale + change) / scale)),
-                    y: offset.y + (relativeY - (relativeY * (scale + change) / scale)),
+                    x: offset.x + (relativeX - (relativeX * (scale * change) / scale)),
+                    y: offset.y + (relativeY - (relativeY * (scale * change) / scale)),
                 },
-                scale: scale + change,
+                scale: scale * change,
             };
         });
     }
