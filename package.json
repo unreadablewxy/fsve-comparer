@@ -1,10 +1,10 @@
 {
-  "name": "fs-viewer-comparer",
+  "name": "fsve-comparer",
   "version": "0.0.0",
-  "description": "Add a side by side visual comparer for files",
+  "description": "A side by side visual comparer for files",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unreadablewxy/fs-viewer-comparer.git"
+    "url": "git+https://github.com/unreadablewxy/fsve-comparer.git"
   },
   "author": {
     "name": "UnreadableCode",
@@ -13,16 +13,16 @@
   },
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/unreadablewxy/fs-viewer-comparer/issues"
+    "url": "https://github.com/unreadablewxy/fsve-comparer/issues"
   },
-  "homepage": "https://github.com/unreadablewxy/fs-viewer-comparer",
+  "homepage": "https://github.com/unreadablewxy/fsve-comparer",
   "main": "dist/index.js",
   "scripts": {
     "test-types": "tsc",
     "build": "webpack --mode=production",
     "watch": "webpack --mode=development --watch",
     "clean": "rm -rf build",
-    "link": "mkdir -p ~/.fs-viewer-extensions/fs-viewer-comparer && ln -s $PWD/build/index.* ~/.fs-viewer-extensions/fs-viewer-comparer"
+    "link": "mkdir -p ~/.fs-viewer-extensions/fsve-comparer && ln -s $PWD/{build/index.*,package.json} ~/.fs-viewer-extensions/fsve-comparer"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
