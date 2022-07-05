@@ -33,8 +33,8 @@ function renderProperties({items, leftFile, rightFile}: Props) {
                 <Icon path={collapsed ? mdiChevronUp : mdiChevronDown} />
             </button>
         </div>
-        {!collapsed && <div className="panel">
-            <div className="background">
+        {!collapsed && <div className="layer">
+            <div className="panel">
                 <ul>
                     {items
                         ? items.map(renderItem)
